@@ -1,0 +1,219 @@
+version: '3'
+services:
+  open5gs_build:
+    image: open5gs_build_env:latest
+    cap_add:
+      - all
+    privileged: true
+    tty: true
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |      
+        mkdir -p /opt/open5gs &&
+        cd /tmp/open5gs &&
+        meson --prefix=/opt/open5gs build &&
+        ninja -C build install &&
+        echo "build finished!"
+        rm -rf tmp*
+    volumes:
+      - /home/yocheol/share/open5gs_src:/tmp
+      - /home/yocheol/share/open5gs_config:/opt
+
+  open5gs_run:
+    build: 
+      context: .
+      dockerfile: Dockerfile_run_env
+    container_name: kikikiky/open5gs:2.0.0
+    depends_on:
+      - open5gs_build   
+    cap_add:
+      - all
+    privileged: true
+    tty: true
+    entrypoint: ["/entrypoint.sh"] 
+    command: ["/bin/bash", "-c"]
+ 
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.150
+
+  amf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: amf
+    command:
+      - open5gs-amfd
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.105
+
+  ausf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: ausf
+    command:
+      - open5gs-ausfd
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.111
+  
+  nrf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: nrf
+    command: open5gs-nrfd
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.110
+  
+  nssf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: nssf
+    command: open5gs-nssfd
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.114
+ 
+  pcf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: pcf
+    command:
+      - open5gs-pcfd
+    environment:
+      DB_URI: mongodb://mongo/open5gs
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.113
+
+  smf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: smf
+    command: open5gs-smfd
+    restart : on-failure
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.104
+
+  udm:
+    image: kikikiky/open5gs:2.0.0
+    container_name: udm
+    restart: on-failure
+    command:
+      - open5gs-udmd
+    depends_on:
+      - open5gs_run  
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.112
+
+  udr:
+    image: kikikiky/open5gs:2.0.0
+    container_name: udr
+    restart: on-failure
+    environment:
+      DB_URI: mongodb://mongo/open5gs
+    command:
+      - open5gs-udrd
+    depends_on:
+      - open5gs_run
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.120
+
+  upf1:
+    image: kikikiky/open5gs:2.0.0
+    container_name: upf1
+    command:
+      - open5gs-upfd
+    cap_add:
+      - all
+    privileged: true
+    restart: on-failure
+    depends_on:
+      - open5gs_run
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.107
+
+  bsf:
+    image: kikikiky/open5gs:2.0.0
+    container_name: bsf
+    restart: on-failure
+    environment:
+      DB_URI: mongodb://mongo/open5gs
+    command:
+      - open5gs-bsfd
+    depends_on:
+      - open5gs_run
+    volumes:
+      #- /home/yocheol/share/open5gs_config/open5gs:/opt/open5gs
+      - /home/yocheol/share/open5gs_logs:/opt/open5gs/var/log/open5gs
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.115
+
+  webui:
+    image: open5gs-webui:2.3.3
+    container_name: webui
+    depends_on:
+      - mongo    
+    restart: on-failure
+    environment:
+      DB_URI: mongodb://mongo/open5gs
+    ports:
+      - 3000:3000
+    networks:
+      open5gsnetwork:
+        ipv4_address: 192.168.0.130
+
+networks:
+  open5gsnetwork:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24

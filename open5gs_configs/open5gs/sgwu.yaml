@@ -1,0 +1,16 @@
+### For reference, see `/opt/open5gs/etc/orig/open5gs/`
+logger:
+    file: /opt/open5gs/var/log/open5gs/sgwu.log
+sgwu:
+    pfcp:
+      - addr: 192.168.0.106
+    gtpu:
+      - addr: 192.168.0.106
+
+sgwc:
+    pfcp:
+#      - name: sgwc
+      - addr: 192.168.0.103
+parameter:
+max:
+pool:

@@ -1,0 +1,35 @@
+FROM ubuntu:focal as builder
+
+ARG version=v3.2.3 \
+    cmake_version=3.21.2
+
+ENV VERSION=$version \
+    CMAKE_VERSION=$cmake_version
+
+# Install updates and dependencies
+RUN apt-get update && \
+    apt-get -y install \
+        make \
+        g++ \
+        libsctp-dev \
+        lksctp-tools \
+        git \
+        iproute2 \
+        iptables \
+        net-tools \
+        ifupdown \
+        iputils-ping \
+        wget \
+        libssl-dev \
+		vim
+    
+# requires cmake >=3.17
+RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz && \
+    tar -zxvf cmake-${CMAKE_VERSION}.tar.gz && \ 
+    cd cmake-${CMAKE_VERSION} && \
+    ./bootstrap && \
+    make -j `nproc` && \
+    make install
+
+RUN file="$(cmake --version)" && echo $file && \
+    echo "alias ll='ls -al --color=auto'" >> ~/.bashrc

@@ -1,0 +1,44 @@
+version: '3'
+services: 
+  gnb1:
+    image: kikikiky/ueransim:2.0.0
+    container_name: gnb1
+    command: 
+      - gnb
+    cap_add:
+      - all
+    privileged: true
+    environment:
+      AMF_HOSTNAME: amf
+      GNB_HOSTNAME: gnb1
+      #    networks:
+      #     - default
+      #     - p5g_open5gs_ueransim_open5gsnetwork
+      
+  ue1:
+    image: kikikiky/ueransim:2.0.0
+    container_name: ue1
+    command: 
+      - ue
+    cap_add:
+      - all
+    privileged: true
+    environment:
+      GNB_HOSTNAME: gnb1
+      APN: internet
+      MSISDN: '0000000001'
+      KEY: '465B5CE8B199B49FAA5F0A2EE238A6BC'
+      OP_TYPE: OPC
+      OP: 'E8ED289DEBA952E4283B54E88E6183CA'
+      #    networks:
+      #     - default
+      #     - p5g_open5gs_ueransim_open5gsnetwork 
+
+networks:
+  default:
+    external: 
+      name: p5g_open5gs_ueransim_open5gsnetwork
+     
+#networks:
+#  p5g_open5gs_ueransim_open5gsnetwork:
+#    external: true

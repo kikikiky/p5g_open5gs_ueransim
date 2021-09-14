@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ueransim_build:
+    image: ueran_build_env:latest
+    cap_add:
+      - all
+    privileged: true
+    tty: true
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - | 
+        cd /tmp/UERANSIM && \
+        echo "cmake --version" && \ 
+        make -j `nproc`
+        #echo "build finished!"
+    volumes:
+      - /home/yocheol/share/p5g_open5gs_useransim/source:/tmp

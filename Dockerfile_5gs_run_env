@@ -1,0 +1,52 @@
+FROM debian:buster-slim
+
+ARG version=2.3.3
+ENV VERSION=$version
+
+LABEL org.opencontainers.image.authors="Yocheol Kim <yocheol.kim@lge.com>" \
+      org.opencontainers.image.vendor="lge" \
+      org.opencontainers.image.licenses="GNU AGPL v3.0" \
+      org.opencontainers.image.version="$version"
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
+    libyaml-0-2 \
+    libmongoc-1.0-0 \
+    libsctp1 \
+    libidn11 \
+    libcurl4 \
+    libmicrohttpd12 \
+    libnghttp2-14 \
+    iproute2 iputils-ping procps net-tools iptables vim \
+    tcpdump && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "alias ll='ls -al --color=auto'" >> ~/.bashrc
+
+ENV APP_ROOT=/opt/open5gs
+COPY lib/open5gs/bin ${APP_ROOT}/bin/
+COPY lib/open5gs/etc ${APP_ROOT}/etc/orig/
+COPY lib/open5gs/lib/ /usr/local/lib/
+COPY open5gs_configs/ ${APP_ROOT}/etc/
+#COPY open5gs_configs/open5gs/upf1.yaml ${APP_ROOT}/etc/open5gs/upf.yaml
+
+ENV PATH=${APP_ROOT}/bin:${PATH} HOME=${APP_ROOT}
+WORKDIR ${APP_ROOT}
+
+# update /usr/local/lib libraries 
+RUN ldconfig
+COPY entrypoint_open5gs.sh /entrypoint.sh
+
+# TODO: run with non-root user
+#RUN groupadd -r open5gs && useradd --no-log-init -r -g open5gs open5gs
+#RUN chown -R open5gs:open5gs ${APP_ROOT}
+#USER open5gs
+
+#Default CONF values
+ENV DB_URI=mongodb://mongo/open5gs
+
+ENV IPV4_TUN_SUBNET="10.45.0.0/16" \
+    IPV4_TUN_ADDR="10.45.0.1/16" \
+    IPV6_TUN_ADDR="cafe::1/64" \
+    ENABLE_NAT=true
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]

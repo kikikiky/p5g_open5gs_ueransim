@@ -1,0 +1,7 @@
+### For reference, see `/opt/open5gs/etc/orig/open5gs/`
+logger:
+    file: /opt/open5gs/var/log/open5gs/pcrf.log
+parameter:
+
+pcrf:
+    freeDiameter: pcrf.conf

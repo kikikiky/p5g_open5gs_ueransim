@@ -1,0 +1,45 @@
+FROM ubuntu:focal
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libsctp-dev \
+        lksctp-tools \
+        iproute2 \
+        iptables \
+        netbase \
+        ifupdown \
+        net-tools \
+        curl \
+        vim \
+        gettext \
+        host \
+        traceroute tcpdump \
+        iputils-ping && \
+    apt-get autoremove -y && apt-get autoclean && \
+    echo "alias ll='ls -al --color=auto'" >> ~/.bashrc
+    
+COPY source/UERANSIM/build/* /usr/local/bin/
+
+COPY ueransim_configs/ /etc/ueransim
+COPY entrypoint_ueransim.sh /entrypoint.sh
+#RUN chmod +x /entrypoint.sh
+#RUN apt-get install -y procps
+
+ENV ENB_ID=0x19B \
+    MCC=001 \
+    MNC=01 \
+    NETWORK=openverso.org \
+    TAC=0001 \
+    MSISDN=0000000001 \
+    KEY=465B5CE8B199B49FAA5F0A2EE238A6BC \
+    OP_TYPE=OPC \
+    OP=E8ED289DEBA952E4283B54E88E6183CA \
+    SST=1 \
+    SD=1 \
+    UE_HOSTNAME=ue \
+    GNB_HOSTNAME=gnb \
+    AMF_HOSTNAME=amf \
+    APN=internet
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/sh"]

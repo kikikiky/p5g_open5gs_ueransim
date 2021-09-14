@@ -1,0 +1,20 @@
+### For reference, see `/opt/open5gs/etc/orig/open5gs/`
+logger:
+    file: /opt/open5gs/var/log/open5gs/upf.log
+
+upf:
+    pfcp:
+      - addr: 192.168.0.107
+    gtpu:
+      - addr: 192.168.0.107
+    subnet:
+      - addr: 10.45.0.1/16
+        dnn: internet
+        dev: ogstun
+smf:
+    pfcp:
+#      - name: smf
+      - addr: 192.168.0.104
+parameter:
+max:
+pool:

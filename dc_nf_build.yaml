@@ -1,0 +1,20 @@
+version: '3'
+services:
+  open5gs_build:
+    image: open5gs_build_env:latest
+    cap_add:
+      - all
+    privileged: true
+    tty: true
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |      
+        mkdir -p /opt/open5gs &&
+        cd /tmp/open5gs &&
+        meson --prefix=/opt/open5gs build &&
+        ninja -C build install &&
+        echo "Build finished! Remove temporary folders" &&
+        rm -rfv tmp*
+    volumes:
+      - /home/yocheol/share/p5g_open5gs_ueransim/source:/tmp
+      - /home/yocheol/share/p5g_open5gs_ueransim/lib:/opt
