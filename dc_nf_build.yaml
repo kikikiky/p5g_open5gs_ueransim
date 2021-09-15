@@ -14,7 +14,7 @@ services:
         meson --prefix=/opt/open5gs build &&
         ninja -C build install &&
         echo "Build finished! Remove temporary folders" &&
-        rm -rfv tmp*
+        rm -rfv ../tmp*
     volumes:
-      - /home/yocheol/share/p5g_open5gs_ueransim/source:/tmp
-      - /home/yocheol/share/p5g_open5gs_ueransim/lib:/opt
+      - ${PWD}/source:/tmp
+      - ${PWD}/lib:/opt

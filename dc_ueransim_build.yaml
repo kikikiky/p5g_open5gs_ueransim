@@ -1,7 +1,8 @@
 version: '3'
 services:
   ueransim_build:
-    image: ueran_build_env:latest
+    image: kikikiky/ueran_build_env:latest
+    #image: ueran_build_env:latest
     cap_add:
       - all
     privileged: true
@@ -14,4 +15,5 @@ services:
         make -j `nproc`
         #echo "build finished!"
     volumes:
-      - /home/yocheol/share/p5g_open5gs_useransim/source:/tmp
+      - ${PWD}/source:/tmp
+      #- /home/yocheol/share/p5g_open5gs_ueransim/source:/tmp

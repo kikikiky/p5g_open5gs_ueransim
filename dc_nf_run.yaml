@@ -22,8 +22,8 @@ services:
       - open5gs-amfd
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.105
@@ -35,8 +35,8 @@ services:
       - open5gs-ausfd
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.111
@@ -47,8 +47,8 @@ services:
     command: open5gs-nrfd
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.110
@@ -59,8 +59,8 @@ services:
     command: open5gs-nssfd
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.114
@@ -74,8 +74,8 @@ services:
       DB_URI: mongodb://mongo/open5gs
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.113
@@ -86,8 +86,8 @@ services:
     command: open5gs-smfd
     restart : on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.104
@@ -99,8 +99,8 @@ services:
     command:
       - open5gs-udmd
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.112
@@ -114,8 +114,8 @@ services:
     command:
       - open5gs-udrd
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.120
@@ -130,8 +130,8 @@ services:
     privileged: true
     restart: on-failure
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.107
@@ -145,8 +145,8 @@ services:
     command:
       - open5gs-bsfd
     volumes:
-      #- /home/yocheol/share/p5g_open5gs_ueransim/lib/open5gs/open5gs:/opt/open5gs
-      - /home/yocheol/share/p5g_open5gs_ueransim/log/open5gs:/opt/open5gs/var/log/open5gs
+      #- ${PWD}/lib/open5gs/open5gs:/opt/open5gs
+      - ${PWD}/log/open5gs:/opt/open5gs/var/log/open5gs
     networks:
       open5gsnetwork:
         ipv4_address: 192.168.0.115
