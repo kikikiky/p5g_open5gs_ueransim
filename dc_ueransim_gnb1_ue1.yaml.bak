@@ -11,13 +11,9 @@ services:
     environment:
       AMF_HOSTNAME: amf
       GNB_HOSTNAME: gnb1
-      MCC: '001'
-      MNC: '01'
-      SST: '1'
-      SD: '1'
-      GNB_ADDR: '165.186.175.130'
-      AMF_ADDR: '165.186.175.212'
-    network_mode: "host"
+      #    networks:
+      #     - default
+      #     - p5g_open5gs_ueransim_open5gsnetwork
       
   ue1:
     image: kikikiky/ueransim:2.0.0
@@ -34,10 +30,15 @@ services:
       KEY: '465B5CE8B199B49FAA5F0A2EE238A6BC'
       OP_TYPE: OPC
       OP: 'E8ED289DEBA952E4283B54E88E6183CA'
-      MCC: '001'
-      MNC: '01'
-      SST: '1'
-      SD: '1'
-      GNB_ADDR: '165.186.175.130'
-    network_mode: "host"
+      #    networks:
+      #     - default
+      #     - p5g_open5gs_ueransim_open5gsnetwork 
 
+networks:
+  default:
+    external: 
+      name: p5g_open5gs_ueransim_open5gsnetwork
+     
+#networks:
+#  p5g_open5gs_ueransim_open5gsnetwork:
+#    external: true

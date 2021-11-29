@@ -13,7 +13,8 @@ RUN apt-get update && \
         vim \
         gettext \
         host \
-        traceroute tcpdump \
+        traceroute \
+        tcpdump \
         iputils-ping && \
     apt-get autoremove -y && apt-get autoclean && \
     echo "alias ll='ls -al --color=auto'" >> ~/.bashrc
@@ -22,7 +23,7 @@ COPY source/UERANSIM/build/* /usr/local/bin/
 
 COPY ueransim_configs/ /etc/ueransim
 COPY entrypoint_ueransim.sh /entrypoint.sh
-#RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 #RUN apt-get install -y procps
 
 ENV ENB_ID=0x19B \
