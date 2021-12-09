@@ -15,8 +15,8 @@ services:
       MNC: '01'
       SST: '1'
       SD: '1'
-      GNB_ADDR: '165.186.175.130'
-      AMF_ADDR: '165.186.175.212'
+      GNB_ADDR: '10.177.55.100'
+      AMF_ADDR: '10.177.55.102'
     network_mode: "host"
       
   ue1:
@@ -38,6 +38,6 @@ services:
       MNC: '01'
       SST: '1'
       SD: '1'
-      GNB_ADDR: '165.186.175.130'
+      GNB_ADDR: '10.177.55.100'
     network_mode: "host"
 
