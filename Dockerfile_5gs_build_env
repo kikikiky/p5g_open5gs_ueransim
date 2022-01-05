@@ -37,6 +37,8 @@ RUN apt-get update && \
         libnghttp2-dev \
         libmicrohttpd-dev \
         libcurl4-openssl-dev \
+        libtins-dev \
+        libtalloc-dev \
         wget && \
     apt-get clean
 	

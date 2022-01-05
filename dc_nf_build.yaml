@@ -1,7 +1,7 @@
 version: '3'
 services:
   open5gs_build:
-    image: open5gs_build_env:latest
+    image: kikikiky/open5gs_build_env:latest
     cap_add:
       - all
     privileged: true

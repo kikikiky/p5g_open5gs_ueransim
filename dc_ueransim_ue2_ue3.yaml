@@ -1,27 +1,8 @@
 version: '3'
-services: 
-  gnb1:
+services:
+  ue2:
     image: kikikiky/ueransim:2.0.0
-    container_name: gnb1
-    command: 
-      - gnb
-    cap_add:
-      - all
-    privileged: true
-    environment:
-      AMF_HOSTNAME: amf
-      GNB_HOSTNAME: gnb1
-      MCC: '999'
-      MNC: '70'
-      SST: '1'
-      SD: '1'
-      GNB_ADDR: '10.177.55.101'
-      AMF_ADDR: '10.177.55.102'
-    network_mode: "host"
-      
-  ue1:
-    image: kikikiky/ueransim:2.0.0
-    container_name: ue1
+    container_name: ue2
     command: 
       - ue
     cap_add:
@@ -30,10 +11,10 @@ services:
     environment:
       GNB_HOSTNAME: gnb1
       APN: internet.lgep5g.net
-      MSISDN: '0000054040'
-      KEY: '8EF27480B81B1C554E1194E0270AC876'
+      MSISDN: '0000054041'
+      KEY: '30AA8C743C9F258E6DEB2665E2785231'
       OP_TYPE: OPC
-      OP: '47F63BA250652F1BE5DCA8C81DF145EB'
+      OP: 'DB008E32D942D562109C0C59C4B35E2D'
       MCC: '999'
       MNC: '70'
       SST: '1'
@@ -41,3 +22,24 @@ services:
       GNB_ADDR: '10.177.55.101'
     network_mode: "host"
 
+  ue3:
+    image: kikikiky/ueransim:2.0.0
+    container_name: ue3
+    command: 
+      - ue
+    cap_add:
+      - all
+    privileged: true
+    environment:
+      GNB_HOSTNAME: gnb1
+      APN: internet.lgep5g.net
+      MSISDN: '0000054042'
+      KEY: 'BEACBF86E61B0E56F87DAFEC84CBACE3'
+      OP_TYPE: OPC
+      OP: 'B1B14D77DA20DC8E3181DACFBA04A964'
+      MCC: '999'
+      MNC: '70'
+      SST: '1'
+      SD: '1'
+      GNB_ADDR: '10.177.55.101'
+    network_mode: "host"

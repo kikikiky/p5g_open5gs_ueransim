@@ -27,20 +27,20 @@ RUN chmod +x /entrypoint.sh
 #RUN apt-get install -y procps
 
 ENV ENB_ID=0x19B \
-    MCC=001 \
-    MNC=01 \
+    MCC=999 \
+    MNC=70 \
     NETWORK=openverso.org \
     TAC=0001 \
-    MSISDN=0000000001 \
-    KEY=465B5CE8B199B49FAA5F0A2EE238A6BC \
+    MSISDN=0000054040 \
+    KEY=8EF27480B81B1C554E1194E0270AC876 \
     OP_TYPE=OPC \
-    OP=E8ED289DEBA952E4283B54E88E6183CA \
+    OP=47F63BA250652F1BE5DCA8C81DF145EB \
     SST=1 \
     SD=1 \
     UE_HOSTNAME=ue \
     GNB_HOSTNAME=gnb \
     AMF_HOSTNAME=amf \
-    APN=internet
+    APN=internet.lgep5g.net
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/sh"]
